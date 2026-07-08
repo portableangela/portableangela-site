@@ -59,7 +59,7 @@ function renderHome() {
     const a = document.createElement("a");
     a.href = `${f.category}.html`;
     a.className = "project-card";
-    a.innerHTML = `<div><span class="tag">${f.label}</span><span class="title">${project.title}</span></div>`;
+    a.innerHTML = `<div><span class="tag">${f.label}</span></div>`;
     grid.appendChild(a);
   });
 }

@@ -234,7 +234,7 @@ const SITE = {
 
     contact: {
       heading: "Get in touch",
-      sub: "For workshops, collaborations, grants, and press inquiries.",
+      sub: "",
       formEndpoint: "https://formspree.io/f/REPLACE_ME",
       newsletterHeading: "Moon Letters",
       newsletterSub: "Occasional dispatches on trust, synchronicity, and works in progress.",
