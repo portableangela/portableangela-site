@@ -237,6 +237,22 @@ nav.primary-nav a.active { color: var(--accent-text); }
   align-items: flex-end;
   padding: 14px;
   transition: background 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.photo-fill + * {
+  position: relative;
+  z-index: 1;
 }
 
 .project-card:hover { background: #ECE9F5; }
@@ -297,6 +313,8 @@ nav.primary-nav a.active { color: var(--accent-text); }
 }
 
 .detail-image {
+  position: relative;
+  overflow: hidden;
   background: var(--surface);
   border-radius: 2px;
   aspect-ratio: 16 / 10;
@@ -320,6 +338,8 @@ nav.primary-nav a.active { color: var(--accent-text); }
 }
 
 .detail-gallery-frame {
+  position: relative;
+  overflow: hidden;
   background: var(--surface);
   border-radius: 2px;
   aspect-ratio: 4 / 5;
@@ -342,6 +362,8 @@ nav.primary-nav a.active { color: var(--accent-text); }
 }
 
 .detail-carousel-frame {
+  position: relative;
+  overflow: hidden;
   flex: 0 0 100%;
   background: var(--surface);
   aspect-ratio: 16 / 10;
@@ -436,6 +458,8 @@ nav.primary-nav a.active { color: var(--accent-text); }
 }
 
 .about-photo {
+  position: relative;
+  overflow: hidden;
   background: var(--surface);
   border-radius: 2px;
   aspect-ratio: 3 / 4;

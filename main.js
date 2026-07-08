@@ -12,6 +12,13 @@ function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
 function qsa(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
 function toParas(text) { return text.split("\n\n").map(p => `<p style="margin:0 0 1em;">${p}</p>`).join(""); }
 
+// Returns an <img> tag that fills its parent and silently disappears
+// (falling back to the parent's placeholder background color) if the
+// image file doesn't exist yet.
+function photoTag(src) {
+  return `<img class="photo-fill" src="${src}" alt="" onerror="this.remove()">`;
+}
+
 /* ---------- nav ---------- */
 function initNav() {
   const toggle = qs(".menu-toggle");
@@ -59,7 +66,7 @@ function renderHome() {
     const a = document.createElement("a");
     a.href = `${f.category}.html`;
     a.className = "project-card";
-    a.innerHTML = `<div><span class="tag">${f.label}</span></div>`;
+    a.innerHTML = `${photoTag(`images/${project.category}/${project.slug}-1.jpg`)}<div><span class="tag">${f.label}</span></div>`;
     grid.appendChild(a);
   });
 }
@@ -68,6 +75,7 @@ function renderHome() {
 function renderAbout() {
   const d = DATA.about;
   qs("[data-about-bio]").textContent = d.bio.replace(/\n\n/g, " ");
+  qs(".about-photo").innerHTML = photoTag("images/about/portrait.jpg");
 
   const edu = qs("[data-education]");
   edu.innerHTML = d.education.map(e => `<div>${e.degree} \u2014 ${e.school} &middot; ${e.year}</div>`).join("");
@@ -93,7 +101,7 @@ function renderProjectCategory(categoryKey) {
     const a = document.createElement("a");
     a.href = `project.html?slug=${p.slug}`;
     a.className = "project-card";
-    a.innerHTML = `<div><span class="tag">${p.title}</span><span class="title">${p.year}</span></div>`;
+    a.innerHTML = `${photoTag(`images/${p.category}/${p.slug}-1.jpg`)}<div><span class="tag">${p.title}</span><span class="title">${p.year}</span></div>`;
     grid.appendChild(a);
   });
 }
@@ -112,8 +120,11 @@ function renderProjectDetail() {
 
   document.title = `${project.title} \u2014 ${DATA.meta.siteName}`;
 
+  let photoIndex = 1;
+  const nextPhoto = () => `images/${project.category}/${project.slug}-${photoIndex++}.jpg`;
+
   const buildCarousel = (count, captions) => {
-    const frames = Array(count).fill('<div class="detail-carousel-frame"></div>').join("");
+    const frames = Array(count).fill(0).map(() => `<div class="detail-carousel-frame">${photoTag(nextPhoto())}</div>`).join("");
     const dots = Array(count).fill(0).map((_, i) => `<button class="carousel-dot${i === 0 ? " active" : ""}" data-index="${i}" aria-label="Photo ${i + 1}"></button>`).join("");
     const captionsHtml = captions
       ? captions.map((c, i) => `<div class="detail-carousel-caption${i === 0 ? " active" : ""}">${c}</div>`).join("")
@@ -139,7 +150,7 @@ function renderProjectDetail() {
     ? ""
     : project.galleryCount
       ? `${buildCarousel(project.galleryCount, project.imageCaptions)}${(!project.imageCaptions && project.imageCaption) ? `<div class="detail-image-caption">${project.imageCaption}</div>` : ""}`
-      : `<div class="detail-image"></div>${project.imageCaption ? `<div class="detail-image-caption">${project.imageCaption}</div>` : ""}`;
+      : `<div class="detail-image">${photoTag(nextPhoto())}</div>${project.imageCaption ? `<div class="detail-image-caption">${project.imageCaption}</div>` : ""}`;
   const descriptionHtml = project.description ? `<div class="detail-description">${toParas(project.description)}</div>` : "";
   const bodyHtml = project.body ? `<div class="detail-body">${toParas(project.body)}</div>` : "";
   const contentBlocksHtml = (project.contentBlocks || []).map(block => {

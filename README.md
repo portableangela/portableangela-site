@@ -38,15 +38,32 @@ Spanish:
 
 ## Adding real photos
 
-Each project detail page currently shows two placeholder gray boxes
-(`.frame` divs in `project.html`, rendered by `renderProjectDetail()` in
-`js/main.js`). To add real images:
-1. Drop image files into the matching folder under `images/` (e.g.
-   `images/series/coffee-and-japan-1.jpg`).
-2. In `content.js`, each project can take an `images: ["path/to/file.jpg"]`
-   array — add that field, then update the `renderProjectDetail()` function
-   in `js/main.js` to render `<img>` tags from it instead of the empty
-   `.frame` divs (I'm happy to wire this up once photos are ready).
+Photos are picked up automatically once you name and place the files
+correctly — no code or content.js editing needed.
+
+**About page photo:**
+Place a single file at `images/about/portrait.jpg`.
+
+**Every project's photos:**
+Place files at `images/<category>/<slug>-1.jpg`, `-2.jpg`, `-3.jpg`, etc.,
+numbered in the order they should appear on the page.
+
+- `<category>` is one of: `literary`, `series`, `collaborations`
+- `<slug>` is the project's URL slug (e.g. `dreams-belong-to-the-future`) —
+  find it by looking at the project's entry in `content.js`, or by checking
+  the URL of its page (`project.html?slug=...`)
+
+For a project with just one photo, only add `-1.jpg`. For a project with a
+photo carousel, add as many numbered files as photos you want — the count
+just needs to match (or be fewer than) what the carousel expects; extra
+slots simply show the placeholder color if a numbered file is missing.
+
+Homepage tiles and category-page tiles automatically use each project's
+`-1.jpg` as their cover thumbnail — no separate images needed for those.
+
+If a photo file is missing or misnamed, that slot just shows the soft
+lilac placeholder color instead of a broken image icon, so it's safe to
+add photos gradually over time.
 
 ## Before going live — two placeholders to replace
 
