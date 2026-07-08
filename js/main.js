@@ -21,7 +21,7 @@ const PHOTO_POSITION_OVERRIDES = {
   "coffee-and-1": "50% 20%",
   "coffee-and-3": "50% 20%",
   "coffee-and-4": "50% 15%",
-  "moon-letters-lab-1": "50% 65%",
+  "moon-letters-lab-1": "75% 15%",
   "el-poder-de-los-sures-2": "50% 0%",
   "com-partir-1": "50% 15%",
   "com-partir-3": "80% 20%",
