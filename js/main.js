@@ -12,11 +12,29 @@ function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
 function qsa(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
 function toParas(text) { return text.split("\n\n").map(p => `<p style="margin:0 0 1em;">${p}</p>`).join(""); }
 
-// Returns an <img> tag that fills its parent and silently disappears
-// (falling back to the parent's placeholder background color) if the
-// image file doesn't exist yet.
-function photoTag(src) {
-  return `<img class="photo-fill" src="${src}" alt="" onerror="this.remove()">`;
+// Returns an <img> tag that fills its parent. Tries common file
+// extensions in order (jpg, jpeg, JPG, JPEG, png, PNG) since photos
+// often get exported with different extensions, then silently falls
+// back to the parent's placeholder background color if none exist yet.
+function photoTag(basePath) {
+  const exts = ["jpg", "jpeg", "JPG", "JPEG", "png", "PNG"];
+  return `<img class="photo-fill" src="${basePath}.${exts[0]}" data-base="${basePath}" data-exts='${JSON.stringify(exts)}' data-ext-index="0" alt="" onerror="handlePhotoError(this)" onload="handlePhotoLoad(this)">`;
+}
+
+function handlePhotoError(img) {
+  const exts = JSON.parse(img.dataset.exts);
+  const nextIndex = parseInt(img.dataset.extIndex, 10) + 1;
+  if (nextIndex < exts.length) {
+    img.dataset.extIndex = nextIndex;
+    img.src = `${img.dataset.base}.${exts[nextIndex]}`;
+  } else {
+    img.remove();
+  }
+}
+
+function handlePhotoLoad(img) {
+  const card = img.closest(".project-card");
+  if (card) card.classList.add("has-photo");
 }
 
 /* ---------- nav ---------- */
@@ -66,7 +84,7 @@ function renderHome() {
     const a = document.createElement("a");
     a.href = `${f.category}.html`;
     a.className = "project-card";
-    a.innerHTML = `${photoTag(`images/${project.category}/${project.slug}-1.jpg`)}<div><span class="tag">${f.label}</span></div>`;
+    a.innerHTML = `${photoTag(`images/${project.category}/${project.slug}-1`)}<div><span class="tag">${f.label}</span></div>`;
     grid.appendChild(a);
   });
 }
@@ -75,7 +93,7 @@ function renderHome() {
 function renderAbout() {
   const d = DATA.about;
   qs("[data-about-bio]").textContent = d.bio.replace(/\n\n/g, " ");
-  qs(".about-photo").innerHTML = photoTag("images/about/portrait.jpg");
+  qs(".about-photo").innerHTML = photoTag("images/about/portrait");
 
   const edu = qs("[data-education]");
   edu.innerHTML = d.education.map(e => `<div>${e.degree} \u2014 ${e.school} &middot; ${e.year}</div>`).join("");
@@ -101,7 +119,7 @@ function renderProjectCategory(categoryKey) {
     const a = document.createElement("a");
     a.href = `project.html?slug=${p.slug}`;
     a.className = "project-card";
-    a.innerHTML = `${photoTag(`images/${p.category}/${p.slug}-1.jpg`)}<div><span class="tag">${p.title}</span><span class="title">${p.year}</span></div>`;
+    a.innerHTML = `${photoTag(`images/${p.category}/${p.slug}-1`)}<div><span class="tag">${p.title}</span><span class="title">${p.year}</span></div>`;
     grid.appendChild(a);
   });
 }
@@ -121,7 +139,7 @@ function renderProjectDetail() {
   document.title = `${project.title} \u2014 ${DATA.meta.siteName}`;
 
   let photoIndex = 1;
-  const nextPhoto = () => `images/${project.category}/${project.slug}-${photoIndex++}.jpg`;
+  const nextPhoto = () => `images/${project.category}/${project.slug}-${photoIndex++}`;
 
   const buildCarousel = (count, captions) => {
     const frames = Array(count).fill(0).map(() => `<div class="detail-carousel-frame">${photoTag(nextPhoto())}</div>`).join("");

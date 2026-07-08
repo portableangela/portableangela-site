@@ -255,6 +255,21 @@ nav.primary-nav a.active { color: var(--accent-text); }
   z-index: 1;
 }
 
+.project-card.has-photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 45%, rgba(0, 0, 0, 0) 70%);
+  z-index: 1;
+}
+
+.project-card.has-photo .tag,
+.project-card.has-photo .title {
+  color: #FFFFFF;
+  position: relative;
+  z-index: 2;
+}
+
 .project-card:hover { background: #ECE9F5; }
 
 .project-card .tag {
