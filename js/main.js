@@ -21,10 +21,11 @@ const PHOTO_POSITION_OVERRIDES = {
   "coffee-and-1": "50% 20%",
   "coffee-and-3": "50% 20%",
   "coffee-and-4": "50% 15%",
-  "moon-letters-lab-1": "50% 0%",
-  "el-poder-de-los-sures-2": "50% 10%",
+  "moon-letters-lab-1": "50% 65%",
+  "el-poder-de-los-sures-2": "50% 0%",
   "com-partir-1": "50% 15%",
-  "com-partir-3": "80% 20%"
+  "com-partir-3": "80% 20%",
+  "round-the-block-3": "50% 100%"
 };
 
 // Returns an <img> tag that fills its parent. Tries common file
@@ -102,7 +103,7 @@ function renderHome() {
     const a = document.createElement("a");
     a.href = `${f.category}.html`;
     a.className = "project-card";
-    a.innerHTML = `${photoTag(`images/${project.category}/${project.slug}-1`)}<div><span class="tag">${f.label}</span></div>`;
+    a.innerHTML = `${photoTag(`images/${project.category}/${project.slug}-${project.coverPhoto || 1}`)}<div><span class="tag">${f.label}</span></div>`;
     grid.appendChild(a);
   });
 }
@@ -137,7 +138,7 @@ function renderProjectCategory(categoryKey) {
     const a = document.createElement("a");
     a.href = `project.html?slug=${p.slug}`;
     a.className = "project-card";
-    a.innerHTML = `${photoTag(`images/${p.category}/${p.slug}-1`)}<div><span class="tag">${p.title}</span><span class="title">${p.year}</span></div>`;
+    a.innerHTML = `${photoTag(`images/${p.category}/${p.slug}-${p.coverPhoto || 1}`)}<div><span class="tag">${p.title}</span><span class="title">${p.year}</span></div>`;
     grid.appendChild(a);
   });
 }

@@ -141,6 +141,7 @@ const SITE = {
         slug: "faraway-so-close",
         category: "series",
         tag: "Visual",
+        coverPhoto: 4,
         year: "2014\u2013now",
         title: "Faraway So Close",
         description: "Snapshots of drying clothes in 40 countries. I hate doing laundry. It comforts me that we all have to do it. There is something about the clothes that keeps me guessing about the owners and our shared humanity.",

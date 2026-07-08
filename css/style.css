@@ -235,11 +235,16 @@ nav.primary-nav a.active { color: var(--accent-text); }
   border-radius: 2px;
   aspect-ratio: 4 / 5;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   padding: 14px;
   transition: background 0.15s ease;
   position: relative;
   overflow: hidden;
+}
+
+.project-grid--cols-3 .project-card,
+.project-grid--cols-4 .project-card {
+  align-items: flex-end;
 }
 
 .photo-fill {
